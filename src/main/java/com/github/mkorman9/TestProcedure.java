@@ -3,27 +3,24 @@ package com.github.mkorman9;
 import java.util.ArrayList;
 import java.util.List;
 
-class TestProcedure {
-    private static final long BENCHMARK_REPEAT = 1000L;
+@FunctionalInterface
+interface TestProcedure {
+    long BENCHMARK_REPEAT = 1000L;
 
-    private Runnable procedure;
+    void run();
 
-    TestProcedure(Runnable procedure) {
-        this.procedure = procedure;
-    }
-
-    List<Long> perform() {
-        List<Long> timeMeasurments = new ArrayList<>();
+    default List<Long> perform() {
+        List<Long> timeMeasurements = new ArrayList<>();
         for (int i = 0; i < BENCHMARK_REPEAT; i++) {
-            timeMeasurments.add(measureProcedureTime(procedure));
+            timeMeasurements.add(measureProcedureTime());
         }
-        return timeMeasurments;
+        return timeMeasurements;
     }
 
-    private static long measureProcedureTime(Runnable procedure) {
+    default long measureProcedureTime() {
         long startTime = System.nanoTime();
 
-        procedure.run();
+        run();
 
         long duration = System.nanoTime() - startTime;
         return duration / 1000000L;
