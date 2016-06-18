@@ -5,24 +5,24 @@ import java.util.List;
 
 @FunctionalInterface
 interface TestProcedure {
-    long BENCHMARK_REPEAT = 1000L;
+    long BENCHMARK_REPEAT = 50L;
 
-    void run();
+    void run(int[] array);
 
-    default List<Long> perform() {
+    default List<Long> perform(int[] array) {
         List<Long> timeMeasurements = new ArrayList<>((int)BENCHMARK_REPEAT);
         for (int i = 0; i < BENCHMARK_REPEAT; i++) {
-            timeMeasurements.add(measureProcedureTime());
+            timeMeasurements.add(measureProcedureTime(array));
         }
         return timeMeasurements;
     }
 
-    default long measureProcedureTime() {
+    default long measureProcedureTime(int[] array) {
         long startTime = System.nanoTime();
 
-        run();
+        run(array);
 
         long duration = System.nanoTime() - startTime;
-        return duration / 1000000L;
+        return duration;
     }
 }
