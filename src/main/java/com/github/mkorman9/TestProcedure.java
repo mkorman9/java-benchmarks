@@ -10,7 +10,7 @@ interface TestProcedure {
     void run();
 
     default List<Long> perform() {
-        List<Long> timeMeasurements = new ArrayList<>();
+        List<Long> timeMeasurements = new ArrayList<>((int)BENCHMARK_REPEAT);
         for (int i = 0; i < BENCHMARK_REPEAT; i++) {
             timeMeasurements.add(measureProcedureTime());
         }
